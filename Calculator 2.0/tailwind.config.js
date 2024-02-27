@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       width: {
-        sm: "400px",
+        sm: "250px",
       },
     },
   },
