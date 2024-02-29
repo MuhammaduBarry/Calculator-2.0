@@ -9,31 +9,72 @@
   <title>Calculator 2.0</title>
 </head>
 
-<body class="box-border text-center font-mono">
+<body class="bg-black box-border text-center font-mono">
   <h1 class="text-white text-3xl mt-4">Calculator 2.0</h1>
-  <div class="w-sm flex flex-col m-auto mt-8 border border-black rounded-md p-4">
-    <input type="text" placeholder="0" class="text-right border border-black rounded-md mb-4 px-3 py-2">
-    <div class="grid grid-cols-4 gap-2 bg-white rounded-md  " id="calulator-body">
-      <button class="border border-black rounded-md" id="off-button">AC</button>
-      <button class="border border-black rounded-md" id="clear-button">C</button>
-      <button class="border border-black rounded-md" id="delete-button">DEL</button>
-      <button class="border border-black rounded-md operation" id="remainder-button">%</button>
-      <button class="border border-black rounded-md number" id="seven">7</button>
-      <button class="border border-black rounded-md number" id="eight">8</button>
-      <button class="border border-black rounded-md number" id="nine">9</button>
-      <button class="border border-black rounded-md operation" id="divide-button">/</button>
-      <button class="border border-black rounded-md number" id="four">4</button>
-      <button class="border border-black rounded-md number" id="five">5</button>
-      <button class="border border-black rounded-md number" id="six">6</button>
-      <button class="border border-black rounded-md operation" id="mulitplication-button">X</button>
-      <button class="border border-black rounded-md number" id="one">1</button>
-      <button class="border border-black rounded-md number" id="two">2</button>
-      <button class="border border-black rounded-md number" id="three">3</button>
-      <button class="border border-black rounded-md operation" id="subraction-button">-</button>
-      <button class="border border-black rounded-md number" id="zero">0</button>
-      <button class="border border-black rounded-md number" id="decimal-point">.</button>
-      <button class="border border-black rounded-md oepration" id="equal-button">=</button>
-      <button class="border border-black rounded-md operation" id="addition-button">+</button>
+  <div
+    class="w-sm fixed top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col mt-8 bg-black border border-white rounded-lg p-4">
+    <input type="text" placeholder="0" class="text-right border border-white rounded-lg mb-4 px-3 py-2 bg-black">
+    <div class="grid grid-cols-4 gap-2 rounded-md  bg-black" id="calulator-body">
+      <button
+        class="text-white border border-white rounded-xl py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:bg-red-600 duration-300"
+        id="off-button">AC</button>
+      <button
+        class="text-white border border-white rounded-xl py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:bg-red-600 duration-300"
+        id="clear-button">C</button>
+      <button
+        class="text-white border border-white rounded-xl py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:bg-red-600 duration-300"
+        id="delete-button">DEL</button>
+      <button
+        class="text-white border border-white rounded-xl operation py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:bg-orange-400 duration-300"
+        id="remainder-button">%</button>
+      <button
+        class="text-white border border-white rounded-xl number py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:bg-blue-500 duration-300"
+        id="seven">7</button>
+      <button
+        class="text-white border border-white rounded-xl number py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:bg-blue-500 duration-300"
+        id="eight">8</button>
+      <button
+        class="text-white border border-white rounded-xl number py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:bg-blue-500 duration-300"
+        id="nine">9</button>
+      <button
+        class="text-white border border-white rounded-xl operation py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:bg-orange-400 duration-300"
+        id="divide-button">/</button>
+      <button
+        class="text-white border border-white rounded-xl number py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:bg-blue-500 duration-300"
+        id="four">4</button>
+      <button
+        class="text-white border border-white rounded-xl number py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:bg-blue-500 duration-300"
+        id="five">5</button>
+      <button
+        class="text-white border border-white rounded-xl number py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:bg-blue-500 duration-300"
+        id="six">6</button>
+      <button
+        class="text-white border border-white rounded-xl operation py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:bg-orange-400 duration-300"
+        id="mulitplication-button">X</button>
+      <button
+        class="text-white border border-white rounded-xl number py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:bg-blue-500 duration-300"
+        id="one">1</button>
+      <button
+        class="text-white border border-white rounded-xl number py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:bg-blue-500 duration-300"
+        id="two">2</button>
+      <button
+        class="text-white border border-white rounded-xl number py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:bg-blue-500 duration-300"
+        id="three">3</button>
+      <button
+        class="text-white border border-white rounded-xl operation py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:bg-orange-400 duration-300"
+        id="subraction-button">-</button>
+      <button
+        class="text-white border border-white rounded-xl number py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:bg-blue-500 duration-300"
+        id="zero">0</button>
+      <button
+        class="text-white border border-white rounded-xl number py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:bg-orange-400 duration-300"
+        id="decimal-point">.</button>
+      <button
+        class="text-white border border-white rounded-xl operation py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:bg-green-500 duration-300"
+        id="equal-button">=</button>
+      <button
+        class="text-white border border-white rounded-xl operation py-2 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 hover:bg-orange-400 duration-300"
+        id="addition-button">+</button>
     </div>
   </div>
 </body>
