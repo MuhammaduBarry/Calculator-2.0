@@ -33,6 +33,7 @@ const number = (e, numberString) => {
   // In the end we need to return our number string
   return numberString;
 };
+
 const firstNumber = (e) => {
   // We need to assign our string to the function so that our value can get updated
   firstNumberString = number(e, firstNumberString);
@@ -44,23 +45,56 @@ calculatorContainer.addEventListener("click", firstNumber);
 const operator = (e) => {
   const clickedOperator = e.target.classList.contains("operation");
 
-  if (clickedOperator) {
+  if (clickedOperator && isNumberComplete) {
+    calculatorContainer.removeEventListener("click", firstNumber);
     operatorType = e.target.value;
     calculatorInput.placeholder = e.target.value;
     calculatorContainer.removeEventListener("click", firstNumber);
     console.log(`This is my operator: ${calculatorInput.placeholder}`);
     OperatorClicked = true;
   }
-  if (e.target.value === "=") {
-    console.log("working");
-  }
 };
 
 calculatorContainer.addEventListener("click", operator);
 
 const secondNumber = (e) => {
-  secondNumberString = number(e, secondNumberString);
-  console.log(`This is my second number: ${secondNumberString}`);
+  if (OperatorClicked) {
+    calculatorContainer.removeEventListener("click", operator);
+    secondNumberString = number(e, secondNumberString);
+    console.log(`This is my second number: ${secondNumberString}`);
+  }
 };
 
 calculatorContainer.addEventListener("click", secondNumber);
+
+let result;
+
+const operation = (e) => {
+  if (e.target.value === "=") {
+    calculatorContainer.addEventListener("click", secondNumber);
+    switch (operatorType) {
+      case "%":
+        result = firstNumberString % secondNumberString;
+        console.log(`${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`);
+        break;
+      case "/":
+        result = firstNumberString / secondNumberString;
+        console.log(`${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`);
+        break;
+      case "*":
+        result = firstNumberString * secondNumberString;
+        console.log(`${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`);
+        break;
+      case "-":
+        result = firstNumberString - secondNumberString;
+        console.log(`${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`);
+        break;
+      case "+":
+        result = firstNumberString + secondNumberString;
+        console.log(`${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`);
+        break;
+    }
+  }
+};
+
+calculatorContainer.addEventListener("click", operation);
