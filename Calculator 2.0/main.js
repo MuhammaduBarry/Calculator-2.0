@@ -3,6 +3,7 @@ let calculatorInput = document.querySelector("#calculator-input");
 let canClickDecimal = true;
 let isNumberComplete = false;
 let OperatorClicked = false;
+let isCalculatorOn = true;
 
 let firstNumberString = "";
 let secondNumberString = "";
@@ -29,6 +30,7 @@ const number = (e, numberString) => {
       isNumberComplete = true;
     }
     calculatorInput.placeholder = numberString;
+    console.log(`this is my number: ${numberString}`);
   }
   // In the end we need to return our number string
   return numberString;
@@ -37,7 +39,6 @@ const number = (e, numberString) => {
 const firstNumber = (e) => {
   // We need to assign our string to the function so that our value can get updated
   firstNumberString = number(e, firstNumberString);
-  console.log(`this is my first number: ${firstNumberString}`);
 };
 
 calculatorContainer.addEventListener("click", firstNumber);
@@ -61,7 +62,6 @@ const secondNumber = (e) => {
   if (OperatorClicked) {
     calculatorContainer.removeEventListener("click", operator);
     secondNumberString = number(e, secondNumberString);
-    console.log(`This is my second number: ${secondNumberString}`);
   }
 };
 
@@ -70,30 +70,55 @@ calculatorContainer.addEventListener("click", secondNumber);
 let result;
 
 const operation = (e) => {
+  const clearButton = document.querySelector("#clear-button");
+  const offButton = document.querySelector("#off-button");
   if (e.target.value === "=") {
-    calculatorContainer.addEventListener("click", secondNumber);
+    calculatorContainer.removeEventListener("click", secondNumber);
     switch (operatorType) {
       case "%":
         result = firstNumberString % secondNumberString;
-        console.log(`${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`);
+        console.log(
+          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
+        );
         break;
       case "/":
         result = firstNumberString / secondNumberString;
-        console.log(`${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`);
+        console.log(
+          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
+        );
         break;
       case "*":
         result = firstNumberString * secondNumberString;
-        console.log(`${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`);
+        console.log(
+          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
+        );
         break;
       case "-":
         result = firstNumberString - secondNumberString;
-        console.log(`${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`);
+        console.log(
+          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
+        );
         break;
       case "+":
         result = firstNumberString + secondNumberString;
-        console.log(`${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`);
+        console.log(
+          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
+        );
         break;
+      default:
+        console.log("Sorry something went wrong");
     }
+  } else if (e.target === clearButton) {
+    firstNumberString = "";
+    secondNumberString = "";
+    calculatorInput.placeholder = "0";
+    console.log(`Initial input is now: ${calculatorInput.placeholder}`);
+  } else if (e.target === offButton) {
+    calculatorInput.placeholder = "";
+    firstNumberString = "";
+    secondNumberString = "";
+    console.log("Calculator is off");
+    isCalculatorOn = false;
   }
 };
 
