@@ -6,27 +6,37 @@ let OperatorClicked = false;
 
 let firstNumberString = "";
 let secondNumberString = "";
+let operatorType = "";
 
-const firstNumber = (e) => {
-  // This allows us to to only click on number classes
+const number = (e, numberString) => {
   const clickedNumber = e.target.classList.contains("number");
 
   if (clickedNumber) {
     // We don't want our zeros to continuously stack :)
-    if (firstNumberString === "0") {
+    if (numberString === "0") {
       // Handle the case where the first number is 0
-      firstNumberString = e.target.value;
-    } else if (e.target.value == "." && canClickDecimal) {
-      firstNumberString += e.target.value;
-      canClickDecimal = false;
+      numberString = e.target.value;
+    } else if (e.target.value === "." && canClickDecimal) {
+      // This allows our string to stack and add our numbers
+      numberString += e.target.value;
+      // Only one decimal is allowed in numbers
+      canClickDecimal = false; // Once turned false then another decimal is not allowed
+      // This checks if the number is completed so the second one can run after the operation
       isNumberComplete = true;
     } else if (e.target.value !== ".") {
-      firstNumberString += e.target.value;
+      // If not then we just continuously add numbers
+      numberString += e.target.value;
       isNumberComplete = true;
     }
-    calculatorInput.placeholder = firstNumberString;
-    console.log(`This is first number: ${firstNumberString}`);
+    calculatorInput.placeholder = numberString;
   }
+  // In the end we need to return our number string
+  return numberString;
+};
+const firstNumber = (e) => {
+  // We need to assign our string to the function so that our value can get updated
+  firstNumberString = number(e, firstNumberString);
+  console.log(`this is my first number: ${firstNumberString}`);
 };
 
 calculatorContainer.addEventListener("click", firstNumber);
@@ -35,33 +45,22 @@ const operator = (e) => {
   const clickedOperator = e.target.classList.contains("operation");
 
   if (clickedOperator) {
+    operatorType = e.target.value;
     calculatorInput.placeholder = e.target.value;
     calculatorContainer.removeEventListener("click", firstNumber);
     console.log(`This is my operator: ${calculatorInput.placeholder}`);
     OperatorClicked = true;
+  }
+  if (e.target.value === "=") {
+    console.log("working");
   }
 };
 
 calculatorContainer.addEventListener("click", operator);
 
 const secondNumber = (e) => {
-  const clickedNumber = e.target.classList.contains("number");
-
-  if (clickedNumber && OperatorClicked) {
-    if (firstNumberString === "0") {
-      // Handle the case where the first number is 0
-      firstNumberString = e.target.value;
-    } else if (e.target.value == "." && canClickDecimal) {
-      firstNumberString += e.target.value;
-      canClickDecimal = false;
-      isNumberComplete = true;
-    } else if (e.target.value !== ".") {
-      firstNumberString += e.target.value;
-      isNumberComplete = true;
-    }
-    calculatorInput.placeholder = firstNumberString;
-    console.log(`This is first number: ${firstNumberString}`);
-  }
+  secondNumberString = number(e, secondNumberString);
+  console.log(`This is my second number: ${secondNumberString}`);
 };
 
 calculatorContainer.addEventListener("click", secondNumber);
