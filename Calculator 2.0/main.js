@@ -1,3 +1,4 @@
+const test = document.querySelectorAll(".operation");
 const calculatorContainer = document.querySelector("#calculator-container");
 let calculatorInput = document.querySelector("#calculator-input");
 let canClickDecimal = true;
@@ -11,6 +12,7 @@ let operatorType = "";
 
 const number = (e, numberString) => {
   const clickedNumber = e.target.classList.contains("number");
+  const deleteButton = document.querySelector("#delete-button");
 
   if (clickedNumber) {
     // We don't want our zeros to continuously stack :)
@@ -30,7 +32,17 @@ const number = (e, numberString) => {
       isNumberComplete = true;
     }
     calculatorInput.placeholder = numberString;
-    console.log(`this is my number: ${numberString}`);
+  }
+
+  if (e.target === deleteButton) {
+    numberString = numberString.slice(0, -1);
+    calculatorInput.placeholder = numberString;
+    if (numberString === "") {
+      calculatorInput.placeholder = 0;
+    } else if (numberString[numberString.length - 1] === ".") {
+      numberString = numberString.slice(0, -1);
+      calculatorInput.placeholder = numberString;
+    }
   }
   // In the end we need to return our number string
   return numberString;
@@ -39,6 +51,7 @@ const number = (e, numberString) => {
 const firstNumber = (e) => {
   // We need to assign our string to the function so that our value can get updated
   firstNumberString = number(e, firstNumberString);
+  console.log(`This is my first Number: ${firstNumberString}`);
 };
 
 calculatorContainer.addEventListener("click", firstNumber);
@@ -59,48 +72,75 @@ const operator = (e) => {
 calculatorContainer.addEventListener("click", operator);
 
 const secondNumber = (e) => {
-  if (OperatorClicked) {
+  canClickDecimal = true;
+  if (OperatorClicked && canClickDecimal) {
     calculatorContainer.removeEventListener("click", operator);
     secondNumberString = number(e, secondNumberString);
+    console.log(`This is my second Number: ${secondNumberString}`);
   }
 };
 
 calculatorContainer.addEventListener("click", secondNumber);
 
+// Creating number conditions
+const firstNumStr = (firstString) => Number(firstString);
+const secondNumStr = (secondString) => Number(secondString);
+
+// The equation allows us to get rid of javascript precision binary problem
 let result;
 
 const operation = (e) => {
   const clearButton = document.querySelector("#clear-button");
   const offButton = document.querySelector("#off-button");
+
   if (e.target.value === "=") {
     calculatorContainer.removeEventListener("click", secondNumber);
     switch (operatorType) {
       case "%":
-        result = firstNumberString % secondNumberString;
+        result =
+          (((firstNumStr(firstNumberString) * 10) %
+            secondNumStr(secondNumberString)) *
+            10) /
+          10;
         console.log(
           `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
         );
         break;
       case "/":
-        result = firstNumberString / secondNumberString;
+        result =
+          (((firstNumStr(firstNumberString) * 10) /
+            secondNumStr(secondNumberString)) *
+            10) /
+          10;
         console.log(
           `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
         );
         break;
       case "*":
-        result = firstNumberString * secondNumberString;
+        result =
+          (firstNumStr(firstNumberString) *
+            10 *
+            secondNumStr(secondNumberString) *
+            10) /
+          100; // I honestly don't know why i need to use 100 but i need to use 100 :)
         console.log(
           `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
         );
         break;
       case "-":
-        result = firstNumberString - secondNumberString;
+        result =
+          (firstNumStr(firstNumberString) * 10 -
+            secondNumStr(secondNumberString) * 10) /
+          10;
         console.log(
           `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
         );
         break;
       case "+":
-        result = firstNumberString + secondNumberString;
+        result =
+          (firstNumStr(firstNumberString) * 10 +
+            secondNumStr(secondNumberString) * 10) /
+          10;
         console.log(
           `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
         );
