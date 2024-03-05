@@ -52,7 +52,6 @@ const number = (e, numberString) => {
 const firstNumber = (e) => {
   // We need to assign our string to the function so that our value can get updated
   firstNumberString = number(e, firstNumberString);
-  console.log(`This is my first Number: ${firstNumberString}`);
 };
 
 calculatorContainer.addEventListener("click", firstNumber);
@@ -62,6 +61,7 @@ const operator = (e) => {
 
   if (clickedOperator && isNumberComplete) {
     calculatorContainer.removeEventListener("click", firstNumber);
+    console.log(`This is my first Number: ${firstNumberString}`);
     operatorType = e.target.value;
     calculatorInput.placeholder = e.target.value;
     console.log(`This is my operator: ${calculatorInput.placeholder}`);
@@ -76,12 +76,7 @@ const secondNumber = (e) => {
   if (OperatorClicked && canClickDecimal) {
     calculatorContainer.removeEventListener("click", operator);
     secondNumberString = number(e, secondNumberString);
-    console.log(`This is my second Number: ${secondNumberString}`);
   }
-  // } else if (e.target.value === "=" && secondNumberString === "") {
-  //   // calculatorContainer.removeEventListener("click", operation);
-  //   console.log("Empty string cannot continue");
-  // }
 };
 
 calculatorContainer.addEventListener("click", secondNumber);
@@ -89,70 +84,53 @@ calculatorContainer.addEventListener("click", secondNumber);
 // Turning strings into numbers
 const firstNumStr = (firstString) => Number(firstString);
 const secondNumStr = (secondString) => Number(secondString);
+const strings = (stringOne, stringTwo) => {
+  switch (operatorType) {
+    case "%":
+      result =
+        (((firstNumStr(stringOne) * 10) % secondNumStr(stringTwo)) * 10) / 10;
+      console.log(`${stringOne} ${operatorType} ${stringTwo} is: ${result}`);
+      calculatorResults();
+      break;
+    case "/":
+      result =
+        (((firstNumStr(stringOne) * 10) / secondNumStr(stringTwo)) * 10) / 10;
+      console.log(`${stringOne} ${operatorType} ${stringTwo} is: ${result}`);
+      calculatorResults();
+      break;
+    case "*":
+      result =
+        (firstNumStr(stringOne) * 10 * secondNumStr(stringTwo) * 10) / 100; // I honestly don't know why i need to use 100 but i need to use 100 :)
+      console.log(`${stringOne} ${operatorType} ${stringTwo} is: ${result}`);
+      calculatorResults();
+      break;
+    case "-":
+      result =
+        (firstNumStr(stringOne) * 10 - secondNumStr(stringTwo) * 10) / 10;
+      console.log(`${stringOne} ${operatorType} ${stringTwo} is: ${result}`);
+      calculatorResults();
+      break;
+    case "+":
+      result =
+        (firstNumStr(stringOne) * 10 + secondNumStr(stringTwo) * 10) / 10;
+      console.log(`${stringOne} ${operatorType} ${stringTwo} is: ${result}`);
+      calculatorResults();
+      break;
+    default:
+      console.log("Sorry something went wrong");
+  }
+};
 const calculatorResults = () => (calculatorInput.placeholder = result);
 const operation = (e) => {
   const clearButton = document.querySelector("#clear-button");
   const offButton = document.querySelector("#off-button");
-  if (e.target.value === "=") {
+  if (e.target.value === "=" && secondNumberString === "") {
+    strings(firstNumberString, firstNumberString);
+    console.log("Working");
+  } else if (e.target.value === "=") {
+    console.log(`This is my second Number: ${secondNumberString}`);
     // The equation allows us to get rid of javascript precision binary problem
-    switch (operatorType) {
-      case "%":
-        result =
-          (((firstNumStr(firstNumberString) * 10) %
-            secondNumStr(secondNumberString)) *
-            10) /
-          10;
-        console.log(
-          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
-        );
-        calculatorResults();
-        break;
-      case "/":
-        result =
-          (((firstNumStr(firstNumberString) * 10) /
-            secondNumStr(secondNumberString)) *
-            10) /
-          10;
-        console.log(
-          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
-        );
-        calculatorResults();
-        break;
-      case "*":
-        result =
-          (firstNumStr(firstNumberString) *
-            10 *
-            secondNumStr(secondNumberString) *
-            10) /
-          100; // I honestly don't know why i need to use 100 but i need to use 100 :)
-        console.log(
-          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
-        );
-        calculatorResults();
-        break;
-      case "-":
-        result =
-          (firstNumStr(firstNumberString) * 10 -
-            secondNumStr(secondNumberString) * 10) /
-          10;
-        console.log(
-          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
-        );
-        calculatorResults();
-        break;
-      case "+":
-        result =
-          (firstNumStr(firstNumberString) * 10 +
-            secondNumStr(secondNumberString) * 10) /
-          10;
-        console.log(
-          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
-        );
-        calculatorResults();
-        break;
-      default:
-        console.log("Sorry something went wrong");
-    }
+    strings(firstNumberString, secondNumberString);
   } else if (e.target === clearButton) {
     firstNumberString = "";
     secondNumberString = "";
