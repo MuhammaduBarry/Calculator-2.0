@@ -84,53 +84,70 @@ calculatorContainer.addEventListener("click", secondNumber);
 // Turning strings into numbers
 const firstNumStr = (firstString) => Number(firstString);
 const secondNumStr = (secondString) => Number(secondString);
-const strings = (stringOne, stringTwo) => {
-  switch (operatorType) {
-    case "%":
-      result =
-        (((firstNumStr(stringOne) * 10) % secondNumStr(stringTwo)) * 10) / 10;
-      console.log(`${stringOne} ${operatorType} ${stringTwo} is: ${result}`);
-      calculatorResults();
-      break;
-    case "/":
-      result =
-        (((firstNumStr(stringOne) * 10) / secondNumStr(stringTwo)) * 10) / 10;
-      console.log(`${stringOne} ${operatorType} ${stringTwo} is: ${result}`);
-      calculatorResults();
-      break;
-    case "*":
-      result =
-        (firstNumStr(stringOne) * 10 * secondNumStr(stringTwo) * 10) / 100; // I honestly don't know why i need to use 100 but i need to use 100 :)
-      console.log(`${stringOne} ${operatorType} ${stringTwo} is: ${result}`);
-      calculatorResults();
-      break;
-    case "-":
-      result =
-        (firstNumStr(stringOne) * 10 - secondNumStr(stringTwo) * 10) / 10;
-      console.log(`${stringOne} ${operatorType} ${stringTwo} is: ${result}`);
-      calculatorResults();
-      break;
-    case "+":
-      result =
-        (firstNumStr(stringOne) * 10 + secondNumStr(stringTwo) * 10) / 10;
-      console.log(`${stringOne} ${operatorType} ${stringTwo} is: ${result}`);
-      calculatorResults();
-      break;
-    default:
-      console.log("Sorry something went wrong");
-  }
-};
 const calculatorResults = () => (calculatorInput.placeholder = result);
 const operation = (e) => {
   const clearButton = document.querySelector("#clear-button");
   const offButton = document.querySelector("#off-button");
-  if (e.target.value === "=" && secondNumberString === "") {
-    strings(firstNumberString, firstNumberString);
-    console.log("Working");
-  } else if (e.target.value === "=") {
-    console.log(`This is my second Number: ${secondNumberString}`);
+  if (e.target.value === "=") {
     // The equation allows us to get rid of javascript precision binary problem
-    strings(firstNumberString, secondNumberString);
+    switch (operatorType) {
+      case "%":
+        result =
+          (((firstNumStr(firstNumberString) * 10) %
+            secondNumStr(secondNumberString)) *
+            10) /
+          10;
+        console.log(
+          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
+        );
+        calculatorResults();
+        break;
+      case "/":
+        result =
+          (((firstNumStr(firstNumberString) * 10) /
+            secondNumStr(secondNumberString)) *
+            10) /
+          10;
+        console.log(
+          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
+        );
+        calculatorResults();
+        break;
+      case "*":
+        result =
+          (firstNumStr(firstNumberString) *
+            10 *
+            secondNumStr(secondNumberString) *
+            10) /
+          100; // I honestly don't know why i need to use 100 but i need to use 100 :)
+        console.log(
+          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
+        );
+        calculatorResults();
+        break;
+      case "-":
+        result =
+          (firstNumStr(firstNumberString) * 10 -
+            secondNumStr(secondNumberString) * 10) /
+          10;
+        console.log(
+          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
+        );
+        calculatorResults();
+        break;
+      case "+":
+        result =
+          (firstNumStr(firstNumberString) * 10 +
+            secondNumStr(secondNumberString) * 10) /
+          10;
+        console.log(
+          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
+        );
+        calculatorResults();
+        break;
+      default:
+        console.log("Sorry something went wrong");
+    }
   } else if (e.target === clearButton) {
     firstNumberString = "";
     secondNumberString = "";
