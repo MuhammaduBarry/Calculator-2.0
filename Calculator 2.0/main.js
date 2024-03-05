@@ -9,6 +9,7 @@ let isCalculatorOn = true;
 let firstNumberString = "";
 let secondNumberString = "";
 let operatorType = "";
+let result;
 
 const number = (e, numberString) => {
   const clickedNumber = e.target.classList.contains("number");
@@ -63,7 +64,6 @@ const operator = (e) => {
     calculatorContainer.removeEventListener("click", firstNumber);
     operatorType = e.target.value;
     calculatorInput.placeholder = e.target.value;
-    calculatorContainer.removeEventListener("click", firstNumber);
     console.log(`This is my operator: ${calculatorInput.placeholder}`);
     OperatorClicked = true;
   }
@@ -78,23 +78,23 @@ const secondNumber = (e) => {
     secondNumberString = number(e, secondNumberString);
     console.log(`This is my second Number: ${secondNumberString}`);
   }
+  // } else if (e.target.value === "=" && secondNumberString === "") {
+  //   // calculatorContainer.removeEventListener("click", operation);
+  //   console.log("Empty string cannot continue");
+  // }
 };
 
 calculatorContainer.addEventListener("click", secondNumber);
 
-// Creating number conditions
+// Turning strings into numbers
 const firstNumStr = (firstString) => Number(firstString);
 const secondNumStr = (secondString) => Number(secondString);
-
-// The equation allows us to get rid of javascript precision binary problem
-let result;
-
+const calculatorResults = () => (calculatorInput.placeholder = result);
 const operation = (e) => {
   const clearButton = document.querySelector("#clear-button");
   const offButton = document.querySelector("#off-button");
-
   if (e.target.value === "=") {
-    calculatorContainer.removeEventListener("click", secondNumber);
+    // The equation allows us to get rid of javascript precision binary problem
     switch (operatorType) {
       case "%":
         result =
@@ -105,6 +105,7 @@ const operation = (e) => {
         console.log(
           `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
         );
+        calculatorResults();
         break;
       case "/":
         result =
@@ -115,6 +116,7 @@ const operation = (e) => {
         console.log(
           `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
         );
+        calculatorResults();
         break;
       case "*":
         result =
@@ -126,6 +128,7 @@ const operation = (e) => {
         console.log(
           `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
         );
+        calculatorResults();
         break;
       case "-":
         result =
@@ -135,6 +138,7 @@ const operation = (e) => {
         console.log(
           `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
         );
+        calculatorResults();
         break;
       case "+":
         result =
@@ -144,6 +148,7 @@ const operation = (e) => {
         console.log(
           `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
         );
+        calculatorResults();
         break;
       default:
         console.log("Sorry something went wrong");
@@ -158,7 +163,6 @@ const operation = (e) => {
     firstNumberString = "";
     secondNumberString = "";
     console.log("Calculator is off");
-    isCalculatorOn = false;
   }
 };
 
