@@ -49,7 +49,7 @@ const number = (e, numberString) => {
   return numberString;
 };
 
-const firstNumber = e => {
+const firstNumber = (e) => {
   // We need to assign our string to the function so that our value can get updated
   firstNumberString = number(e, firstNumberString);
   console.log(`This is my first Number: ${firstNumberString}`);
@@ -57,7 +57,7 @@ const firstNumber = e => {
 
 calculatorContainer.addEventListener('click', firstNumber);
 
-const operator = e => {
+const operator = (e) => {
   const clickedOperator = e.target.classList.contains('operation');
 
   if (clickedOperator && isNumberComplete) {
@@ -71,7 +71,7 @@ const operator = e => {
 
 calculatorContainer.addEventListener('click', operator);
 
-const secondNumber = e => {
+const secondNumber = (e) => {
   canClickDecimal = true;
   if (OperatorClicked && canClickDecimal) {
     calculatorContainer.removeEventListener('click', operator);
@@ -85,7 +85,7 @@ calculatorContainer.addEventListener('click', secondNumber);
 const calculate = (a, b, operator) => {
   return operator(a, b);
 };
-
+// prettier-ignore
 const modulo = (a, b) => {
   return ((a * 10) % (b * 10)) / 10;
 };
@@ -103,7 +103,7 @@ const addition = (a, b) => {
 };
 
 const calculatorResults = () => (calculatorInput.placeholder = result);
-const operation = e => {
+const operation = (e) => {
   const clearButton = document.querySelector('#clear-button');
   const offButton = document.querySelector('#off-button');
   if (e.target.value === '=') {
