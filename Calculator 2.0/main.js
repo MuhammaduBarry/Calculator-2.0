@@ -1,33 +1,33 @@
-const test = document.querySelectorAll(".operation");
-const calculatorContainer = document.querySelector("#calculator-container");
-let calculatorInput = document.querySelector("#calculator-input");
+const test = document.querySelectorAll('.operation');
+const calculatorContainer = document.querySelector('#calculator-container');
+let calculatorInput = document.querySelector('#calculator-input');
 let canClickDecimal = true;
 let isNumberComplete = false;
 let OperatorClicked = false;
 let isCalculatorOn = true;
 
-let firstNumberString = "";
-let secondNumberString = "";
-let operatorType = "";
+let firstNumberString = '';
+let secondNumberString = '';
+let operatorType = '';
 let result;
 
 const number = (e, numberString) => {
-  const clickedNumber = e.target.classList.contains("number");
-  const deleteButton = document.querySelector("#delete-button");
+  const clickedNumber = e.target.classList.contains('number');
+  const deleteButton = document.querySelector('#delete-button');
 
   if (clickedNumber) {
     // We don't want our zeros to continuously stack :)
-    if (numberString === "0") {
+    if (numberString === '0') {
       // Handle the case where the first number is 0
       numberString = e.target.value;
-    } else if (e.target.value === "." && canClickDecimal) {
+    } else if (e.target.value === '.' && canClickDecimal) {
       // This allows our string to stack and add our numbers
       numberString += e.target.value;
       // Only one decimal is allowed in numbers
       canClickDecimal = false; // Once turned false then another decimal is not allowed
       // This checks if the number is completed so the second one can run after the operation
       isNumberComplete = true;
-    } else if (e.target.value !== ".") {
+    } else if (e.target.value !== '.') {
       // If not then we just continuously add numbers
       numberString += e.target.value;
       isNumberComplete = true;
@@ -38,9 +38,9 @@ const number = (e, numberString) => {
   if (e.target === deleteButton) {
     numberString = numberString.slice(0, -1);
     calculatorInput.placeholder = numberString;
-    if (numberString === "") {
+    if (numberString === '') {
       calculatorInput.placeholder = 0;
-    } else if (numberString[numberString.length - 1] === ".") {
+    } else if (numberString[numberString.length - 1] === '.') {
       numberString = numberString.slice(0, -1);
       calculatorInput.placeholder = numberString;
     }
@@ -49,19 +49,19 @@ const number = (e, numberString) => {
   return numberString;
 };
 
-const firstNumber = (e) => {
+const firstNumber = e => {
   // We need to assign our string to the function so that our value can get updated
   firstNumberString = number(e, firstNumberString);
+  console.log(`This is my first Number: ${firstNumberString}`);
 };
 
-calculatorContainer.addEventListener("click", firstNumber);
+calculatorContainer.addEventListener('click', firstNumber);
 
-const operator = (e) => {
-  const clickedOperator = e.target.classList.contains("operation");
+const operator = e => {
+  const clickedOperator = e.target.classList.contains('operation');
 
   if (clickedOperator && isNumberComplete) {
-    calculatorContainer.removeEventListener("click", firstNumber);
-    console.log(`This is my first Number: ${firstNumberString}`);
+    calculatorContainer.removeEventListener('click', firstNumber);
     operatorType = e.target.value;
     calculatorInput.placeholder = e.target.value;
     console.log(`This is my operator: ${calculatorInput.placeholder}`);
@@ -69,96 +69,115 @@ const operator = (e) => {
   }
 };
 
-calculatorContainer.addEventListener("click", operator);
+calculatorContainer.addEventListener('click', operator);
 
-const secondNumber = (e) => {
+const secondNumber = e => {
   canClickDecimal = true;
   if (OperatorClicked && canClickDecimal) {
-    calculatorContainer.removeEventListener("click", operator);
+    calculatorContainer.removeEventListener('click', operator);
     secondNumberString = number(e, secondNumberString);
+    console.log(`This is my second Number: ${secondNumberString}`);
   }
 };
 
-calculatorContainer.addEventListener("click", secondNumber);
+calculatorContainer.addEventListener('click', secondNumber);
 
-// Turning strings into numbers
-const firstNumStr = (firstString) => Number(firstString);
-const secondNumStr = (secondString) => Number(secondString);
+const calculate = (a, b, operator) => {
+  return operator(a, b);
+};
+
+const modulo = (a, b) => {
+  return ((a * 10) % (b * 10)) / 10;
+};
+const divide = (a, b) => {
+  return (a * 10) / (b * 10) / 10;
+};
+const multiply = (a, b) => {
+  return (a * 10 * (b * 10)) / 100;
+};
+const subtraction = (a, b) => {
+  return (a * 10 - b * 10) / 10;
+};
+const addition = (a, b) => {
+  return (a * 10 + b * 10) / 10;
+};
+
 const calculatorResults = () => (calculatorInput.placeholder = result);
-const operation = (e) => {
-  const clearButton = document.querySelector("#clear-button");
-  const offButton = document.querySelector("#off-button");
-  if (e.target.value === "=") {
+const operation = e => {
+  const clearButton = document.querySelector('#clear-button');
+  const offButton = document.querySelector('#off-button');
+  if (e.target.value === '=') {
     // The equation allows us to get rid of javascript precision binary problem
     switch (operatorType) {
-      case "%":
-        result =
-          (((firstNumStr(firstNumberString) * 10) %
-            secondNumStr(secondNumberString)) *
-            10) /
-          10;
+      case '%':
+        result = calculate(
+          Number(firstNumberString),
+          Number(secondNumberString),
+          modulo,
+        );
         console.log(
-          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
+          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`,
         );
         calculatorResults();
         break;
-      case "/":
-        result =
-          (((firstNumStr(firstNumberString) * 10) /
-            secondNumStr(secondNumberString)) *
-            10) /
-          10;
+      case '/':
+        result = calculate(
+          Number(firstNumberString),
+          Number(secondNumberString),
+          divide,
+        );
         console.log(
-          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
+          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`,
         );
         calculatorResults();
         break;
-      case "*":
-        result =
-          (firstNumStr(firstNumberString) *
-            10 *
-            secondNumStr(secondNumberString) *
-            10) /
-          100; // I honestly don't know why i need to use 100 but i need to use 100 :)
+      case '*':
+        result = calculate(
+          Number(firstNumberString),
+          Number(secondNumberString),
+          multiply,
+        ); // I honestly don't know why i need to use 100 but i need to use 100 :)
         console.log(
-          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
+          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`,
         );
         calculatorResults();
         break;
-      case "-":
-        result =
-          (firstNumStr(firstNumberString) * 10 -
-            secondNumStr(secondNumberString) * 10) /
-          10;
+      case '-':
+        result = calculate(
+          Number(firstNumberString),
+          Number(secondNumberString),
+          subtraction,
+        );
         console.log(
-          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
+          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`,
         );
         calculatorResults();
         break;
-      case "+":
-        result =
-          (firstNumStr(firstNumberString) * 10 +
-            secondNumStr(secondNumberString) * 10) /
-          10;
+      case '+':
+        result = calculate(
+          Number(firstNumberString),
+          Number(secondNumberString),
+          addition,
+        );
         console.log(
-          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`
+          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`,
         );
         calculatorResults();
         break;
       default:
-        console.log("Sorry something went wrong");
+        console.log('Sorry something went wrong');
     }
   } else if (e.target === clearButton) {
-    firstNumberString = "";
-    secondNumberString = "";
-    calculatorInput.placeholder = "0";
+    firstNumberString = '';
+    secondNumberString = '';
+    calculatorInput.placeholder = '0';
     console.log(`Initial input is now: ${calculatorInput.placeholder}`);
   } else if (e.target === offButton) {
-    calculatorInput.placeholder = "";
-    firstNumberString = "";
-    secondNumberString = "";
-    console.log("Calculator is off");
+    calculatorInput.placeholder = '';
+    firstNumberString = '';
+    secondNumberString = '';
+    console.log('Calculator is off');
   }
 };
 
-calculatorContainer.addEventListener("click", operation);
+calculatorContainer.addEventListener('click', operation);
