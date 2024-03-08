@@ -82,24 +82,25 @@ const secondNumber = (e) => {
 
 calculatorContainer.addEventListener('click', secondNumber);
 
-const calculate = (a, b, operator) => {
-  return operator(a, b);
-};
-// prettier-ignore
+const calculate = (a, b, operator) => operator(a, b);
 const modulo = (a, b) => {
   return ((a * 10) % (b * 10)) / 10;
 };
+// prettier-ignore
 const divide = (a, b) => {
-  return (a * 10) / (b * 10) / 10;
+  return ((a * 10) / (b * 10)) / 10;
 };
+// prettier-ignore
 const multiply = (a, b) => {
-  return (a * 10 * (b * 10)) / 100;
+  return ((a * 10 ) * (b * 10)) / 100;
 };
+// prettier-ignore
 const subtraction = (a, b) => {
-  return (a * 10 - b * 10) / 10;
+  return ((a * 10) - (b * 10)) / 10;
 };
+// prettier-ignore
 const addition = (a, b) => {
-  return (a * 10 + b * 10) / 10;
+  return ((a * 10) + (b * 10)) / 10;
 };
 
 const calculatorResults = () => (calculatorInput.placeholder = result);
@@ -110,58 +111,28 @@ const operation = (e) => {
     // The equation allows us to get rid of javascript precision binary problem
     switch (operatorType) {
       case '%':
-        result = calculate(
-          Number(firstNumberString),
-          Number(secondNumberString),
-          modulo,
-        );
-        console.log(
-          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`,
-        );
+        result = calculate(Number(firstNumberString), Number(secondNumberString), modulo);
+        console.log(`${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`);
         calculatorResults();
         break;
       case '/':
-        result = calculate(
-          Number(firstNumberString),
-          Number(secondNumberString),
-          divide,
-        );
-        console.log(
-          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`,
-        );
+        result = calculate(Number(firstNumberString), Number(secondNumberString), divide);
+        console.log(`${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`);
         calculatorResults();
         break;
       case '*':
-        result = calculate(
-          Number(firstNumberString),
-          Number(secondNumberString),
-          multiply,
-        ); // I honestly don't know why i need to use 100 but i need to use 100 :)
-        console.log(
-          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`,
-        );
+        result = calculate(Number(firstNumberString), Number(secondNumberString), multiply); // I honestly don't know why i need to use 100 but i need to use 100 :)
+        console.log(`${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`);
         calculatorResults();
         break;
       case '-':
-        result = calculate(
-          Number(firstNumberString),
-          Number(secondNumberString),
-          subtraction,
-        );
-        console.log(
-          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`,
-        );
+        result = calculate(Number(firstNumberString), Number(secondNumberString), subtraction);
+        console.log(`${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`);
         calculatorResults();
         break;
       case '+':
-        result = calculate(
-          Number(firstNumberString),
-          Number(secondNumberString),
-          addition,
-        );
-        console.log(
-          `${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`,
-        );
+        result = calculate(Number(firstNumberString), Number(secondNumberString), addition);
+        console.log(`${firstNumberString} ${operatorType} ${secondNumberString} is: ${result}`);
         calculatorResults();
         break;
       default:
