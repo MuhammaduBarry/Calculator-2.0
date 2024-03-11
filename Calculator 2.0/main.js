@@ -3,7 +3,7 @@ const calculatorContainer = document.querySelector('#calculator-container');
 let calculatorInput = document.querySelector('#calculator-input');
 let canClickDecimal = true;
 let isNumberComplete = false;
-let OperatorClicked = false;
+let operatorClicked = false;
 let isCalculatorOn = true;
 
 let firstNumberString = '';
@@ -65,7 +65,7 @@ const operator = (e) => {
     operatorType = e.target.value;
     calculatorInput.placeholder = e.target.value;
     console.log(`This is my operator: ${calculatorInput.placeholder}`);
-    OperatorClicked = true;
+    operatorClicked = true;
   }
 };
 
@@ -73,7 +73,7 @@ calculatorContainer.addEventListener('click', operator);
 
 const secondNumber = (e) => {
   canClickDecimal = true;
-  if (OperatorClicked && canClickDecimal) {
+  if (operatorClicked && canClickDecimal) {
     calculatorContainer.removeEventListener('click', operator);
     secondNumberString = number(e, secondNumberString);
     console.log(`This is my second Number: ${secondNumberString}`);
@@ -83,12 +83,13 @@ const secondNumber = (e) => {
 calculatorContainer.addEventListener('click', secondNumber);
 
 const calculate = (a, b, operator) => operator(a, b);
+
 const modulo = (a, b) => {
   return ((a * 10) % (b * 10)) / 10;
 };
 // prettier-ignore
 const divide = (a, b) => {
-  return ((a * 10) / (b * 10)) / 10;
+  return ((a * 10) / (b * 10));
 };
 // prettier-ignore
 const multiply = (a, b) => {
@@ -107,7 +108,10 @@ const calculatorResults = () => (calculatorInput.placeholder = result);
 const operation = (e) => {
   const clearButton = document.querySelector('#clear-button');
   const offButton = document.querySelector('#off-button');
-  if (e.target.value === '=') {
+  if (e.target.value === '=' && secondNumberString === '' && operatorClicked) {
+    calculatorInput.placeholder = firstNumberString;
+    console.log(`only first number: ${firstNumberString} was clicked`);
+  } else if (e.target.value === '=') {
     // The equation allows us to get rid of javascript precision binary problem
     switch (operatorType) {
       case '%':
